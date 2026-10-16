@@ -73,7 +73,7 @@
           <div class="prose">
             <p>Attributes, interactions, and descriptive detail of objects in image descriptionscan provide useful cues about their visual importance.</p>
             <p>Using an entire paragraph as global context as done in previous works can dilute object-specific cues. TSPNet instead matches each candidate region to an object-referential sentence. The combined ROI and sentence representations are converted into spatial priors by rendering them into the input image as heatmap overlays. The resulting image is used by by the pipeline to derive text-guided saliency ranks for each annotated object.</p>
-            <p>Because direct sentence–ROI saliency annotations are unavailable, these scores are trained with pairwise ordinal supervision from ground-truth saliency ranks</p>
+            <p>Because direct sentence–ROI saliency annotations are unavailable, these scores are trained with pairwise ordinal supervision from ground-truth saliency ranks.</p>
             <p>The matched text is also used to refine their corresponding ROI features for additional text guidance.</p>
           </div>
           <figure>
@@ -146,7 +146,7 @@
           </div>
         </div>
         <p class="table-note">Results from Table 2 of the paper. Blue rows denote TSPNet; bold values mark the best result within each backbone family for the selected dataset. Baselines retain their native inference pipelines.</p>
-        <p class="results-takeaway" id="results-takeaway">On ASSR, TSPNet achieves SA-SOR of 0.8146 with Swin-B and SOR of 0.9104 with Swin-L.</p>
+        <p class="results-takeaway" id="results-takeaway">On ASSR, CNN-based TSPNet achieves SA-SOR improvment of 7.58% and SOR improvment of 2.21% over the best baseline. Transformer-based TSPNet achieves SA-SOR improvment of 11.57% and SOR improvment of 2.06% over the best baseline.</p>
         <noscript><p class="table-note">The table above shows ASSR. See the paper for IRSR and SIFR results, or enable JavaScript to switch datasets.</p></noscript>
       </div>
     </section>
