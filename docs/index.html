@@ -28,6 +28,10 @@
   </svg>
 
   <header class="publication-header">
+      <!-- Required by the existing JavaScript initialization -->
+      <div id="authors" class="authors" hidden></div>
+      <div id="affiliations" class="affiliations" hidden></div>
+      <p id="author-note" class="author-note" hidden></p>
 
       <!-- Author names and affiliations are populated from SITE_CONFIG in script.js. -->
       <div class="container">
@@ -58,10 +62,7 @@
         <span><sup>3</sup> Sungkyunkwan University</span>
       </div>
 
-      <!-- Required by the existing JavaScript initialization -->
-      <div id="authors" class="authors" hidden></div>
-      <div id="affiliations" class="affiliations" hidden></div>
-      <p id="author-note" class="author-note" hidden></p>
+
       <p class="venue">WACV 2027 <span class="venue-divider" aria-hidden="true"></span> </p>
       <nav class="publication-links" aria-label="Paper resources">
         <a id="paper-link" class="resource-button" href="./assets/papers/tspnet-paper.pdf" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#icon-paper"/></svg>Paper</a>
