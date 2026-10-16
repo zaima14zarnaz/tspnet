@@ -126,9 +126,9 @@ function configureResults() {
   const caption = document.getElementById("results-caption");
   const takeaway = document.getElementById("results-takeaway");
   const messages = {
-    ASSR: "On ASSR, TSPNet achieves SA-SOR of 0.8146 with Swin-B and SOR of 0.9104 with Swin-L.",
-    IRSR: "On IRSR, TSPNet with Swin-L achieves SA-SOR of 0.7214, SOR of 0.8615, and MAE of 0.0355.",
-    SIFR: "On SIFR, TSPNet with Swin-L achieves SA-SOR of 0.6240 and MAE of 0.0277; ResNet-101 gives its highest SOR of 0.8143.",
+    ASSR: "On ASSR, CNN-based TSPNet achieves SA-SOR improvment of 7.58% and SOR improvment of 2.21% over the best baseline. Transformer-based TSPNet achieves SA-SOR improvment of 4.30% and SOR improvment of 2.06% over the best baseline.",
+    IRSR: "On ASSR, CNN-based TSPNet achieves SA-SOR improvment of 16.92% and SOR improvment of 5.68% over the best baseline. Transformer-based TSPNet achieves SA-SOR improvment of 11.57% and SOR improvment of 2.44% over the best baseline.",
+    SIFR: "On ASSR, CNN-based TSPNet achieves SA-SOR improvment of 1.45% and SOR improvment of 3.08% over the best baseline. Transformer-based TSPNet achieves SA-SOR improvment of 0.55% and SOR improvment of 1.24% over the best baseline.",
   };
   function render() {
     const fragment = document.createDocumentFragment();
