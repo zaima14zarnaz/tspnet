@@ -16,7 +16,7 @@ const SITE_CONFIG = {
   links: {
     paper: "./assets/papers/tspnet-paper.pdf",
     supplement: "./assets/papers/tspnet-supplement.pdf",
-    code: "", // Replace with your public GitHub model repository URL.
+    code: "https://github.com/zaima14zarnaz/tspnet",
     arxiv: "", // Add the actual arXiv URL when available.
   },
   citation: {
