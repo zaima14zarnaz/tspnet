@@ -98,9 +98,9 @@
           <figcaption><strong>Overview of TSPNet.</strong> Matched object descriptions guide saliency ranking at both the image-input and ROI-feature levels.</figcaption>
         </figure>
         <ol class="method-steps">
-          <li><strong>Match sentences to objects.</strong> A separately trained segmentation branch predicts candidate masks. Frozen CLIP encoders match each ROI to the most similar sentence; low-similarity matches use empty text.</li>
-          <li><strong>Learn spatial priors.</strong> The Text-Conditioned Saliency Estimate (TCSE) module scores ROI–sentence pairs using pairwise ordinal supervision from human saliency ranks. A gated heatmap overlay injects these scores into the visual input.</li>
-          <li><strong>Refine and rank.</strong> The Multi-Kernel Text-Adaptive (MKTA) module uses matched text to condition convolutional filters over ROI features. Scene-context reasoning then supports final object-level saliency ranking.</li>
+          <li><strong>Match sentences to objects.</strong> A separately trained segmentation branch predicts ROIs for the objects. Frozen CLIP encoders match each ROI to the most similar sentence in the image description. Low-similarity matches use empty text.</li>
+          <li><strong>Learn spatial priors.</strong> The Text-Conditioned Saliency Estimate (TCSE) module obtains text-conditioned saliency scores (TCSEs) for the ROI–sentence pairs using pairwise ordinal supervision (TCSE Loss) from human saliency ranks. A gated heatmap overlay injects these scores into the visual input.</li>
+          <li><strong>Refine and rank.</strong> The Multi-Kernel Text-Adaptive (MKTA) module uses matched text to generate convolutional filters to refine the backbone generated ROI features. Scene-context reasoning between the text-refined ROI features then produce final object-level saliency ranking.</li>
         </ol>
       </div>
     </section>
