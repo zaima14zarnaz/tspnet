@@ -261,3 +261,72 @@ dialog::backdrop { background: rgba(12,18,29,.84); }
   .dialog-scroll img { min-width: 850px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* Paper authors and affiliations */
+.paper-authors {
+  max-width: 960px;
+  margin: 25px auto 10px;
+  text-align: center;
+  font-size: 20px;
+  line-height: 1.9;
+}
+
+.paper-author {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.paper-author:not(:last-child)::after {
+  content: ",";
+  margin-right: 8px;
+  color: var(--ink, #353535);
+}
+
+.paper-author a {
+  color: var(--blue, #3276c3);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.paper-author a:hover {
+  color: var(--blue-dark, #1b5699);
+  text-decoration: underline;
+}
+
+.paper-author a:focus-visible {
+  outline: 2px solid var(--blue, #3276c3);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.paper-authors sup,
+.paper-affiliations sup {
+  margin-left: 2px;
+  font-size: 0.65em;
+  vertical-align: super;
+  line-height: 0;
+}
+
+.paper-affiliations {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px 22px;
+  margin: 8px auto 0;
+  text-align: center;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--ink, #353535);
+}
+
+@media (max-width: 700px) {
+  .paper-authors {
+    font-size: 18px;
+    line-height: 1.9;
+  }
+
+  .paper-affiliations {
+    font-size: 15px;
+    gap: 4px 16px;
+  }
+}
