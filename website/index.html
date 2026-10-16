@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="TSPNet learns object-grounded text priors for saliency ranking detection. Accepted at WACV 2027.">
+  <meta name="theme-color" content="#ffffff">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="TSPNet — Object-Grounded Text Priors for Saliency Ranking Detection">
+  <meta property="og:description" content="Object-referential language as spatial guidance for saliency ranking. WACV 2027.">
+  <meta name="citation_title" content="Object-Grounded Text Priors for Saliency Ranking Detection">
+  <meta name="citation_conference_title" content="IEEE/CVF Winter Conference on Applications of Computer Vision (WACV)">
+  <meta name="citation_publication_date" content="2027">
+  <title>TSPNet | Object-Grounded Text Priors for Saliency Ranking Detection</title>
+  <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <script defer src="./script.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <svg class="icon-definitions" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="icon-paper" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M8 13h8M8 17h6"/></symbol>
+    <symbol id="icon-code" viewBox="0 0 24 24"><path d="m8 7-5 5 5 5m8-10 5 5-5 5m-3-14-2 18"/></symbol>
+    <symbol id="icon-arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10"/></symbol>
+    <symbol id="icon-zoom" viewBox="0 0 24 24"><circle cx="10" cy="10" r="6"/><path d="m15 15 6 6M10 7v6M7 10h6"/></symbol>
+    <symbol id="icon-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/></symbol>
+    <symbol id="icon-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+  </svg>
+
+  <header class="publication-header">
+    <div class="container">
+      <h1><span class="model-name">TSPNet:</span> Object-Grounded Text Priors<br class="desktop-break"> for Saliency Ranking Detection</h1>
+      <!-- Author names and affiliations are populated from SITE_CONFIG in script.js. -->
+      <div id="authors" class="authors" hidden></div>
+      <div id="affiliations" class="affiliations" hidden></div>
+      <p id="author-note" class="author-note" hidden></p>
+      <p class="venue">WACV 2027 <span class="venue-divider" aria-hidden="true">·</span> <span>Accepted</span></p>
+      <nav class="publication-links" aria-label="Paper resources">
+        <a id="paper-link" class="resource-button" href="./assets/papers/tspnet-paper.pdf" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#icon-paper"/></svg>Paper</a>
+        <a id="supplement-link" class="resource-button" href="./assets/papers/tspnet-supplement.pdf" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#icon-paper"/></svg>Supplement</a>
+        <a id="code-link" class="resource-button unavailable" role="link" aria-disabled="true" tabindex="0"><svg class="icon" aria-hidden="true"><use href="#icon-code"/></svg><span id="code-label">Code · coming soon</span></a>
+        <a id="arxiv-link" class="resource-button" hidden target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#icon-arrow"/></svg>arXiv</a>
+      </nav>
+      <p class="tagline">Turning object-referential language into spatial guidance for saliency ranking.</p>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="teaser container" aria-label="TSPNet predictions">
+      <figure>
+        <a class="figure-link" href="./assets/images/qualitative-main.webp" data-zoom data-caption="Qualitative comparison on IRSR. Warmer colors indicate higher saliency ranks." aria-label="Enlarge the qualitative comparison">
+          <img src="./assets/images/qualitative-main.webp" width="2955" height="776" alt="Two IRSR examples comparing TSPNet with ground truth and seven saliency-ranking baselines: foreground and background birds, and a desk with a monitor and laptop." fetchpriority="high">
+          <span class="zoom-badge"><svg class="icon" aria-hidden="true"><use href="#icon-zoom"/></svg>Enlarge</span>
+        </a>
+        <figcaption><strong>What stands out, and in what order?</strong> TSPNet uses object-matched descriptions to complement visual evidence when ranking salient objects.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section section-tinted" id="abstract">
+      <div class="container narrow">
+        <h2>Abstract</h2>
+        <div class="abstract-text">
+          <p>Saliency ranking detection (SRD) identifies multiple salient objects and orders them by relative visual importance. Existing methods mainly infer this hierarchy from visual appearance and inter-object reasoning, while recent language-guided approaches use descriptions largely as global scene context or caption-derived relations. We argue that language can more effectively complement visual evidence for SRD when object-referential sentences guide saliency ranking at the object level.</p>
+          <p>We propose <strong>TSPNet</strong>, a framework that converts detailed image descriptions into object-level auxiliary priors for saliency ranking. Without direct sentence–object saliency annotations, TSPNet learns text-conditioned auxiliary scores for CLIP-matched ROI–sentence pairs using human-annotated saliency ranks as indirect ordinal supervision. It renders these scores as spatial heatmap priors, while the corresponding text representations guide ROI feature refinement. This extends language guidance beyond global caption modulation toward ROI-specific saliency reasoning. Experiments on ASSR, IRSR, and SIFR show consistent improvements over strong recent baselines in the primary ranking metrics, SA-SOR and SOR. Ablations further show that these gains depend on meaningful linguistic cues and correct ROI–sentence correspondence.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="introduction">
+      <div class="container">
+        <h2>Introduction</h2>
+        <p class="section-lead">From a description of the scene to guidance for each object.</p>
+        <div class="motivation-layout">
+          <div class="prose">
+            <p>A description can tell us more than which objects are present. Attributes, interactions, and descriptive detail can provide useful cues about their visual importance.</p>
+            <p>Using an entire paragraph as global context can dilute object-specific cues. TSPNet instead matches each candidate region to an object-referential sentence and learns how this paired evidence relates to human saliency rankings.</p>
+            <p>The resulting scores become <strong>spatial priors</strong>, while the matched text also refines the corresponding ROI features. Visual evidence and scene context remain part of the final ranking decision.</p>
+          </div>
+          <figure>
+            <a class="figure-link" href="./assets/images/motivation.webp" data-zoom data-caption="Object-grounded language guidance compared with scene-level guidance." aria-label="Enlarge the motivation figure">
+              <img src="./assets/images/motivation.webp" width="782" height="762" alt="Comparison of scene-level language guidance with TSPNet's aligned ROI–text pairs and spatial saliency priors." loading="lazy">
+              <span class="zoom-badge"><svg class="icon" aria-hidden="true"><use href="#icon-zoom"/></svg>Enlarge</span>
+            </a>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tinted" id="method">
+      <div class="container">
+        <h2>Method</h2>
+        <p class="section-lead">Object grounding, text-conditioned spatial priors, and text-adaptive visual features.</p>
+        <figure class="method-figure">
+          <a class="figure-link" href="./assets/images/framework.webp" data-zoom data-caption="TSPNet framework: ROI–sentence matching, TCSE spatial guidance, MKTA feature refinement, and scene-context ranking." aria-label="Enlarge the TSPNet framework">
+            <img src="./assets/images/framework.webp" width="1665" height="876" alt="TSPNet architecture showing CLIP-based ROI–sentence matching, the Text-Conditioned Saliency Estimate module, spatial overlay injection, the Multi-Kernel Text-Adaptive feature extractor, and the ranking head." loading="lazy">
+            <span class="zoom-badge"><svg class="icon" aria-hidden="true"><use href="#icon-zoom"/></svg>Enlarge</span>
+          </a>
+          <figcaption><strong>Overview of TSPNet.</strong> Matched object descriptions guide saliency ranking at both the image-input and ROI-feature levels.</figcaption>
+        </figure>
+        <ol class="method-steps">
+          <li><strong>Match sentences to objects.</strong> A separately trained segmentation branch predicts candidate masks. Frozen CLIP encoders match each ROI to the most similar sentence; low-similarity matches use empty text.</li>
+          <li><strong>Learn spatial priors.</strong> The Text-Conditioned Saliency Estimate (TCSE) module scores ROI–sentence pairs using pairwise ordinal supervision from human saliency ranks. A gated heatmap overlay injects these scores into the visual input.</li>
+          <li><strong>Refine and rank.</strong> The Multi-Kernel Text-Adaptive (MKTA) module uses matched text to condition convolutional filters over ROI features. Scene-context reasoning then supports final object-level saliency ranking.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" id="results">
+      <div class="container">
+        <h2>Experimental Results</h2>
+        <p class="section-lead">Evaluated on three saliency-ranking benchmarks with CNN and Transformer backbones.</p>
+        <div class="results-controls" hidden id="results-controls">
+          <div class="dataset-tabs" role="tablist" aria-label="Benchmark dataset">
+            <button class="dataset-tab is-active" id="tab-assr" role="tab" aria-selected="true" aria-controls="results-panel" data-dataset="ASSR" tabindex="0">ASSR</button>
+            <button class="dataset-tab" id="tab-irsr" role="tab" aria-selected="false" aria-controls="results-panel" data-dataset="IRSR" tabindex="-1">IRSR</button>
+            <button class="dataset-tab" id="tab-sifr" role="tab" aria-selected="false" aria-controls="results-panel" data-dataset="SIFR" tabindex="-1">SIFR</button>
+          </div>
+          <label class="backbone-control" for="backbone-filter">Backbones <select id="backbone-filter"><option value="all">All</option><option value="CNN">CNN</option><option value="Transformer">Transformer</option></select></label>
+        </div>
+        <div id="results-panel" tabindex="0" aria-label="Benchmark results">
+          <div class="table-scroll" tabindex="0" role="region" aria-label="Saliency ranking benchmark table; scroll horizontally on small screens">
+            <table class="results-table">
+              <caption id="results-caption">ASSR benchmark. Higher is better for SA-SOR and SOR; lower is better for MAE.</caption>
+              <thead><tr><th scope="col">Method</th><th scope="col">Backbone</th><th scope="col">SA-SOR ↑</th><th scope="col">SOR ↑</th><th scope="col">MAE ↓</th></tr></thead>
+              <tbody id="results-body">
+                <!-- Static ASSR rows are included below so the table also works without JavaScript. -->
+                <tr class="group-row"><th colspan="5">CNN-based</th></tr>
+                <tr><th scope="row">RSDNet</th><td>ResNet-101</td><td>0.6313</td><td>0.7758</td><td>0.1236</td></tr>
+                <tr><th scope="row">ASSR</th><td>ResNet-101</td><td>0.5400</td><td>0.7920</td><td>0.1010</td></tr>
+                <tr><th scope="row">IRSR-U</th><td>ResNet-50</td><td>0.7051</td><td>0.8314</td><td>0.0923</td></tr>
+                <tr><th scope="row">IRSR-L</th><td>ResNet-50</td><td>0.7090</td><td>0.8283</td><td>0.0914</td></tr>
+                <tr><th scope="row">SOR</th><td>VoVNet-39</td><td>0.6371</td><td>0.8330</td><td>0.0799</td></tr>
+                <tr><th scope="row">QAGNet</th><td>ResNet-50</td><td>0.7545</td><td>0.8514</td><td><strong>0.0619</strong></td></tr>
+                <tr><th scope="row">LG-SOR</th><td>ResNet-50</td><td>0.7360</td><td>0.8875</td><td>0.0650</td></tr>
+                <tr class="ours"><th scope="row">TSPNet</th><td>ResNet-50</td><td>0.7975</td><td>0.9002</td><td>0.0913</td></tr>
+                <tr class="ours"><th scope="row">TSPNet</th><td>ResNet-101</td><td><strong>0.8117</strong></td><td><strong>0.9071</strong></td><td>0.0621</td></tr>
+                <tr class="group-row"><th colspan="5">Transformer-based</th></tr>
+                <tr><th scope="row">OCOR</th><td>Swin-L</td><td>0.6413</td><td>0.8843</td><td>0.0786</td></tr>
+                <tr><th scope="row">QAGNet</th><td>Swin-B</td><td>0.7741</td><td>0.8583</td><td>0.0538</td></tr>
+                <tr><th scope="row">QAGNet</th><td>Swin-L</td><td>0.7793</td><td>0.8591</td><td>0.0492</td></tr>
+                <tr><th scope="row">LG-SOR</th><td>Swin-L</td><td>0.7810</td><td>0.8920</td><td>0.0490</td></tr>
+                <tr class="ours"><th scope="row">TSPNet</th><td>Swin-B</td><td><strong>0.8146</strong></td><td>0.9057</td><td>0.0480</td></tr>
+                <tr class="ours"><th scope="row">TSPNet</th><td>Swin-L</td><td>0.8142</td><td><strong>0.9104</strong></td><td><strong>0.0459</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <p class="table-note">Results from Table 2 of the paper. Blue rows denote TSPNet; bold values mark the best result within each backbone family for the selected dataset. Baselines retain their native inference pipelines.</p>
+        <p class="results-takeaway" id="results-takeaway">On ASSR, TSPNet achieves SA-SOR of 0.8146 with Swin-B and SOR of 0.9104 with Swin-L.</p>
+        <noscript><p class="table-note">The table above shows ASSR. See the paper for IRSR and SIFR results, or enable JavaScript to switch datasets.</p></noscript>
+      </div>
+    </section>
+
+    <section class="section section-tinted" id="qualitative">
+      <div class="container">
+        <h2>Qualitative Results</h2>
+        <p class="section-lead">Object-level rankings across diverse scenes from IRSR.</p>
+        <div class="carousel" role="region" aria-roledescription="carousel" aria-label="Qualitative comparisons">
+          <div class="carousel-slide" id="qualitative-slide-1" role="group" aria-roledescription="slide" aria-label="1 of 2">
+            <figure>
+              <a class="figure-link" href="./assets/images/qualitative-main.webp" data-zoom data-caption="IRSR comparisons: TSPNet, ground truth, and representative baselines." aria-label="Enlarge the first qualitative comparison"><img src="./assets/images/qualitative-main.webp" width="2955" height="776" alt="Comparison of predicted object ranks for birds on a lawn and objects on a desk." loading="lazy"><span class="zoom-badge"><svg class="icon" aria-hidden="true"><use href="#icon-zoom"/></svg>Enlarge</span></a>
+              <figcaption><strong>Foreground objects and competing regions.</strong> Examples compare TSPNet against human annotations and representative baselines. Warmer colors indicate higher saliency ranks.</figcaption>
+            </figure>
+          </div>
+          <div class="carousel-slide" id="qualitative-slide-2" role="group" aria-roledescription="slide" aria-label="2 of 2">
+            <figure>
+              <a class="figure-link" href="./assets/images/qualitative-additional.webp" data-zoom data-caption="Additional qualitative comparisons from the supplementary material." aria-label="Enlarge the additional qualitative comparisons"><img src="./assets/images/qualitative-additional.webp" width="2976" height="1578" alt="Additional IRSR examples comparing predicted saliency ranks with ground truth across multiple scenes and baseline methods." loading="lazy"><span class="zoom-badge"><svg class="icon" aria-hidden="true"><use href="#icon-zoom"/></svg>Enlarge</span></a>
+              <figcaption><strong>Additional examples.</strong> Comparisons from the supplementary material illustrate rankings across a broader set of IRSR scenes.</figcaption>
+            </figure>
+          </div>
+          <div class="carousel-controls" hidden>
+            <button class="arrow-button previous" type="button" aria-label="Previous comparison"><svg class="icon" aria-hidden="true"><use href="#icon-chevron"/></svg></button>
+            <button class="page-button is-active" type="button" aria-label="Show comparison 1" aria-pressed="true" aria-controls="qualitative-slide-1" data-slide="0">1</button>
+            <button class="page-button" type="button" aria-label="Show comparison 2" aria-pressed="false" aria-controls="qualitative-slide-2" data-slide="1">2</button>
+            <button class="arrow-button next" type="button" aria-label="Next comparison"><svg class="icon" aria-hidden="true"><use href="#icon-chevron"/></svg></button>
+          </div>
+          <p class="sr-only" id="carousel-status" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="analysis">
+      <div class="container narrow">
+        <h2>Does Object–Text Grounding Matter?</h2>
+        <p class="section-lead">A controlled matching-corruption experiment tests the importance of correct correspondence.</p>
+        <p>After CLIP matching, increasingly many matched sentences are reassigned to incorrect ROIs. Performance decreases as correspondence is corrupted, supporting the importance of matching linguistic evidence to the right object.</p>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="ROI–text matching degradation results">
+          <table class="analysis-table">
+            <caption>IRSR, ResNet-101. Matching-corruption results from Table 4 of the paper.</caption>
+            <thead><tr><th scope="col">Shuffled matches</th><th scope="col">SA-SOR ↑</th><th scope="col">SOR ↑</th></tr></thead>
+            <tbody><tr class="ours"><th scope="row">0%</th><td><strong>0.7144</strong></td><td><strong>0.8613</strong></td></tr><tr><th scope="row">25%</th><td>0.7018</td><td>0.8538</td></tr><tr><th scope="row">50%</th><td>0.6845</td><td>0.8447</td></tr><tr><th scope="row">75%</th><td>0.6729</td><td>0.8407</td></tr><tr><th scope="row">100%</th><td>0.6671</td><td>0.8383</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- The complete BibTeX is shown automatically after you add authors to SITE_CONFIG. -->
+    <section class="section section-tinted" id="citation-section" hidden>
+      <div class="container narrow">
+        <div class="citation-heading"><h2>BibTeX</h2><button type="button" id="copy-citation" class="copy-button"><svg class="icon" aria-hidden="true"><use href="#icon-copy"/></svg><span>Copy</span></button></div>
+        <p>If you find our work useful, please consider citing:</p>
+        <pre><code id="bibtex"></code></pre>
+        <p class="sr-only" id="copy-status" aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="container"><p><strong>TSPNet</strong> · Object-Grounded Text Priors for Saliency Ranking Detection · WACV 2027</p><p class="credits">Original website implementation inspired by the <a href="https://aim-skku.github.io/ZOO-Prune/" target="_blank" rel="noopener">ZOO-Prune project page</a>.</p></div></footer>
+  <dialog id="image-dialog" aria-labelledby="dialog-caption">
+    <button class="dialog-close" type="button" aria-label="Close enlarged figure">×</button>
+    <div class="dialog-scroll"><img id="dialog-image" alt=""></div>
+    <p id="dialog-caption"></p>
+  </dialog>
+</body>
+</html>
