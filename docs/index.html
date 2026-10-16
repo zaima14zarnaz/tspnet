@@ -49,12 +49,19 @@
           <a href="https://sites.google.com/site/sbkimcv/?pli=1&authuser=0" onclick="if (!this.getAttribute('href')) return false;">Seungbae Kim</a><sup>1</sup>
         </span>
       </div>
+
+
       
       <div class="paper-affiliations">
         <span><sup>1</sup> University of South Florida</span>
         <span><sup>2</sup> Florida International University</span>
         <span><sup>3</sup> Sungkyunkwan University</span>
       </div>
+
+      <!-- Required by the existing JavaScript initialization -->
+      <div id="authors" class="authors" hidden></div>
+      <div id="affiliations" class="affiliations" hidden></div>
+      <p id="author-note" class="author-note" hidden></p>
       <p class="venue">WACV 2027 <span class="venue-divider" aria-hidden="true"></span> </p>
       <nav class="publication-links" aria-label="Paper resources">
         <a id="paper-link" class="resource-button" href="./assets/papers/tspnet-paper.pdf" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#icon-paper"/></svg>Paper</a>
@@ -329,7 +336,7 @@
           </div>
           <p class="diagnostic-note">The short-caption comparison uses human-written MSCOCO captions and short LVLM captions. The other settings modify the linguistic content of the long-form descriptions.</p>
         </div>
-        <p class="diagnostic-note">Ranking metrics: higher is better. Blue rows identify the full or reference setting for each experiment. Values are reproduced from the main paper and supplementary material.</p>
+        
       </div>
     </section>
 
