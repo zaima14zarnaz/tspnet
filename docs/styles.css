@@ -88,8 +88,130 @@ tbody th { font-weight: 450; }
 .previous .icon { transform: rotate(180deg); }
 .carousel-slide figure { animation: fade-in .2s ease-out; }
 @keyframes fade-in { from { opacity: .45; } to { opacity: 1; } }
-.analysis-table { margin-top: 5px; }
-.analysis-table td:nth-child(2), .analysis-table th:nth-child(2) { text-align: right; }
+/* BEGIN TSPNET DIAGNOSTIC ABLATIONS */
+#analysis .diagnostic-shell { max-width: 980px; margin-inline: auto; }
+#analysis .diagnostic-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 9px;
+  margin: 0 0 28px;
+}
+#analysis .diagnostic-tab {
+  min-height: 44px;
+  padding: 9px 17px;
+  border: 1px solid #d7dce2;
+  border-radius: 999px;
+  background: #fff;
+  color: #565d67;
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.4;
+  cursor: pointer;
+  transition: background .18s, color .18s, border-color .18s;
+}
+#analysis .diagnostic-tab:hover {
+  border-color: var(--blue, #3276c3);
+  color: var(--blue-dark, #1b5699);
+}
+#analysis .diagnostic-tab[aria-selected="true"] {
+  color: #fff;
+  background: var(--blue, #3276c3);
+  border-color: var(--blue, #3276c3);
+}
+#analysis .diagnostic-tab:focus-visible,
+#analysis .diagnostic-panel:focus-visible,
+#analysis .diagnostic-table-scroll:focus-visible {
+  outline: 3px solid var(--blue, #3276c3);
+  outline-offset: 4px;
+}
+#analysis .diagnostic-tabs[hidden],
+#analysis .diagnostic-panel[hidden] { display: none !important; }
+#analysis .diagnostic-panel + .diagnostic-panel { margin-top: 32px; }
+#analysis[data-diagnostic-ready="true"] .diagnostic-panel { margin-top: 0; }
+#analysis .diagnostic-panel h3 {
+  margin: 0 0 10px;
+  text-align: center;
+  font-size: 23px;
+  line-height: 1.35;
+  font-weight: 650;
+  letter-spacing: -.3px;
+}
+#analysis .diagnostic-description {
+  max-width: 850px;
+  margin: 0 auto 20px;
+  color: var(--muted, #666);
+  text-align: center;
+  font-size: 16px;
+}
+#analysis .diagnostic-table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  border-top: 2px solid #454b53;
+  border-bottom: 2px solid #454b53;
+}
+#analysis .diagnostic-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  line-height: 1.6;
+  font-variant-numeric: tabular-nums;
+}
+#analysis .diagnostic-table th,
+#analysis .diagnostic-table td {
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--line, #e4e6e9);
+  white-space: nowrap;
+  text-align: right;
+}
+#analysis .diagnostic-table th:first-child,
+#analysis .diagnostic-table td:first-child { text-align: left; }
+/* Override the site's general left alignment for the second column. */
+#analysis .diagnostic-table th:nth-child(2),
+#analysis .diagnostic-table td:nth-child(2) { text-align: right; }
+#analysis .diagnostic-table thead th {
+  background: #f4f5f7;
+  border-bottom: 1px solid #8a929d;
+  font-weight: 650;
+}
+#analysis .diagnostic-table tbody th { font-weight: 450; }
+#analysis .diagnostic-table .diagnostic-reference {
+  background: var(--blue-light, #edf4fc);
+}
+#analysis .diagnostic-table .diagnostic-reference th {
+  color: var(--blue-dark, #1b5699);
+  font-weight: 650;
+}
+#analysis .diagnostic-table strong { font-weight: 750; color: #171e26; }
+#analysis .diagnostic-table caption {
+  caption-side: bottom;
+  padding: 12px 0 5px;
+  text-align: left;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--muted, #666);
+}
+#analysis .diagnostic-note {
+  margin-top: 14px;
+  color: var(--muted, #666);
+  font-size: 13px;
+  line-height: 1.65;
+}
+#analysis .diagnostic-table var { font-family: Georgia, serif; }
+#analysis .diagnostic-table sub { font-size: .75em; }
+@media (max-width: 700px) {
+  #analysis .diagnostic-tabs { gap: 8px; margin-bottom: 22px; }
+  #analysis .diagnostic-tab { padding: 9px 13px; font-size: 13px; }
+  #analysis .diagnostic-panel h3 { font-size: 21px; }
+  #analysis .diagnostic-description { font-size: 15px; }
+  #analysis .diagnostic-table { font-size: 13px; }
+  #analysis .diagnostic-table th,
+  #analysis .diagnostic-table td { padding: 9px 11px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #analysis .diagnostic-tab { transition: none; }
+}
+/* END TSPNET DIAGNOSTIC ABLATIONS */
 .citation-heading { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 20px; }
 .citation-heading h2 { text-align: left; margin: 0; }
 .copy-button { display: inline-flex; align-items: center; gap: 7px; border: 1px solid #d2d7df; color: #45505d; background: #fff; border-radius: 6px; padding: 6px 12px; font-size: 14px; min-height: 40px; }

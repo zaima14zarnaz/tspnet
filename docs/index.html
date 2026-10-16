@@ -179,18 +179,136 @@
       </div>
     </section>
 
-    <section class="section" id="analysis">
-      <div class="container narrow">
-        <h2>Does Object–Text Grounding Matter?</h2>
-        <p class="section-lead">A controlled matching-corruption experiment tests the importance of correct correspondence.</p>
-        <p>After CLIP matching, increasingly many matched sentences are reassigned to incorrect ROIs. Performance decreases as correspondence is corrupted, supporting the importance of matching linguistic evidence to the right object.</p>
-        <div class="table-scroll" tabindex="0" role="region" aria-label="ROI–text matching degradation results">
-          <table class="analysis-table">
-            <caption>IRSR, ResNet-101. Matching-corruption results from Table 4 of the paper.</caption>
-            <thead><tr><th scope="col">Shuffled matches</th><th scope="col">SA-SOR ↑</th><th scope="col">SOR ↑</th></tr></thead>
-            <tbody><tr class="ours"><th scope="row">0%</th><td><strong>0.7144</strong></td><td><strong>0.8613</strong></td></tr><tr><th scope="row">25%</th><td>0.7018</td><td>0.8538</td></tr><tr><th scope="row">50%</th><td>0.6845</td><td>0.8447</td></tr><tr><th scope="row">75%</th><td>0.6729</td><td>0.8407</td></tr><tr><th scope="row">100%</th><td>0.6671</td><td>0.8383</td></tr></tbody>
-          </table>
+    <section class="section" id="analysis" aria-labelledby="diagnostic-heading">
+      <div class="container diagnostic-shell">
+        <h2 id="diagnostic-heading">Diagnostic Ablations</h2>
+        <p class="section-lead">How textual cues, spatial priors, training objectives, and caption sources affect saliency ranking.</p>
+        <div class="diagnostic-tabs" role="tablist" aria-label="Diagnostic ablation experiments" aria-orientation="horizontal" hidden>
+          <button class="diagnostic-tab" id="diag-tab-text" type="button" role="tab" aria-selected="true" aria-controls="diag-panel-text" tabindex="0">Text Perturbations</button>
+          <button class="diagnostic-tab" id="diag-tab-overlay" type="button" role="tab" aria-selected="false" aria-controls="diag-panel-overlay" tabindex="-1">Overlay Perturbations</button>
+          <button class="diagnostic-tab" id="diag-tab-loss" type="button" role="tab" aria-selected="false" aria-controls="diag-panel-loss" tabindex="-1">Loss Analysis</button>
+          <button class="diagnostic-tab" id="diag-tab-matching" type="button" role="tab" aria-selected="false" aria-controls="diag-panel-matching" tabindex="-1">ROI–Text Matching</button>
+          <button class="diagnostic-tab" id="diag-tab-lvlm" type="button" role="tab" aria-selected="false" aria-controls="diag-panel-lvlm" tabindex="-1">Caption Generators</button>
+          <button class="diagnostic-tab" id="diag-tab-linguistic" type="button" role="tab" aria-selected="false" aria-controls="diag-panel-linguistic" tabindex="-1">Linguistic Cues</button>
         </div>
+
+        <div class="diagnostic-panel" id="diag-panel-text" role="tabpanel" aria-labelledby="diag-tab-text" tabindex="0">
+          <h3>Text Perturbations</h3>
+          <p class="diagnostic-description">Compare complete descriptions with empty, sentence-mixed, and image-shuffled textual cues.</p>
+          <div class="diagnostic-table-scroll" role="region" aria-label="Text Perturbations results; scroll horizontally if needed" tabindex="0">
+            <table class="diagnostic-table">
+              <caption>Main paper, Table 4: Text Perturbations. IRSR, ResNet-101.</caption>
+              <thead><tr><th scope="col">Setting</th><th scope="col">SA-SOR ↑</th><th scope="col">SOR ↑</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Empty captions</th><td>0.6977</td><td>0.8424</td></tr>
+                <tr><th scope="row">Sentence-mixed (20%)</th><td>0.7022</td><td>0.8542</td></tr>
+                <tr><th scope="row">Sentence-mixed (100%)</th><td>0.6917</td><td>0.8488</td></tr>
+                <tr><th scope="row">Image-Shuffled</th><td>0.6937</td><td>0.8490</td></tr>
+                <tr class="diagnostic-reference"><th scope="row">Full Caption</th><td><strong>0.7144</strong></td><td><strong>0.8613</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="diagnostic-note">The full-caption setting uses the original image-specific descriptions. Sentence mixing replaces sentences with text sampled from other images.</p>
+        </div>
+
+        <div class="diagnostic-panel" id="diag-panel-overlay" role="tabpanel" aria-labelledby="diag-tab-overlay" tabindex="0">
+          <h3>Overlay Perturbations</h3>
+          <p class="diagnostic-description">Compare spatial TCSE guidance with image-only input, scalar priors, and alternative overlays.</p>
+          <div class="diagnostic-table-scroll" role="region" aria-label="Overlay Perturbations results; scroll horizontally if needed" tabindex="0">
+            <table class="diagnostic-table">
+              <caption>Main paper, Table 4: Overlay Perturbations. IRSR, ResNet-101.</caption>
+              <thead><tr><th scope="col">Setting</th><th scope="col">SA-SOR ↑</th><th scope="col">SOR ↑</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Image Only</th><td>0.6949</td><td>0.8502</td></tr>
+                <tr><th scope="row">RGB Overlay Only</th><td>0.3788</td><td>0.6939</td></tr>
+                <tr><th scope="row">Image + Scalar Prior</th><td>0.6845</td><td>0.8471</td></tr>
+                <tr><th scope="row">Image + Shuffled RGB</th><td>0.6985</td><td>0.8519</td></tr>
+                <tr><th scope="row">Image + Uniform RGB</th><td>0.7001</td><td>0.8526</td></tr>
+                <tr><th scope="row">Image + Uniform Grayscale</th><td>0.6980</td><td>0.8519</td></tr>
+                <tr><th scope="row">Image + TCSE Grayscale</th><td>0.7100</td><td>0.8588</td></tr>
+                <tr class="diagnostic-reference"><th scope="row">Image + TCSE RGB</th><td><strong>0.7144</strong></td><td><strong>0.8613</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="diagnostic-note">Uniform overlays test spatial support without ROI-specific score variation. TCSE grayscale and RGB encode the learned object-specific scores.</p>
+        </div>
+
+        <div class="diagnostic-panel" id="diag-panel-loss" role="tabpanel" aria-labelledby="diag-tab-loss" tabindex="0">
+          <h3>Loss Analysis</h3>
+          <p class="diagnostic-description">Compare auxiliary TCSE supervision, final visual-ranking supervision, and their combination.</p>
+          <div class="diagnostic-table-scroll" role="region" aria-label="Loss Analysis results; scroll horizontally if needed" tabindex="0">
+            <table class="diagnostic-table">
+              <caption>Main paper, Table 4: Loss Analysis. IRSR, ResNet-101.</caption>
+              <thead><tr><th scope="col">Training objective</th><th scope="col">SA-SOR ↑</th><th scope="col">SOR ↑</th></tr></thead>
+              <tbody>
+                <tr><th scope="row"><var>L</var><sub>TCSE</sub></th><td>0.3892</td><td>0.6872</td></tr>
+                <tr><th scope="row"><var>L</var><sub>visrank</sub></th><td>0.6806</td><td>0.8425</td></tr>
+                <tr class="diagnostic-reference"><th scope="row"><var>L</var><sub>TCSE</sub> + <var>L</var><sub>visrank</sub></th><td><strong>0.7144</strong></td><td><strong>0.8613</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="diagnostic-note"><var>L</var><sub>TCSE</sub> supervises the auxiliary scores; <var>L</var><sub>visrank</sub> supervises the final predicted saliency ranks. Both losses together give the best reported results.</p>
+        </div>
+
+        <div class="diagnostic-panel" id="diag-panel-matching" role="tabpanel" aria-labelledby="diag-tab-matching" tabindex="0">
+          <h3>ROI–Text Matching Degradation</h3>
+          <p class="diagnostic-description">Shuffle increasing fractions of matched sentences across ROIs after CLIP matching.</p>
+          <div class="diagnostic-table-scroll" role="region" aria-label="ROI–Text Matching Degradation results; scroll horizontally if needed" tabindex="0">
+            <table class="diagnostic-table">
+              <caption>Main paper, Table 4: ROI–Text Matching Degradation. IRSR, ResNet-101.</caption>
+              <thead><tr><th scope="col">Shuffled matches</th><th scope="col">SA-SOR ↑</th><th scope="col">SOR ↑</th><th scope="col">ρ ↑</th></tr></thead>
+              <tbody>
+                <tr class="diagnostic-reference"><th scope="row">0%</th><td><strong>0.7144</strong></td><td><strong>0.8613</strong></td><td><strong>0.44</strong></td></tr>
+                <tr><th scope="row">25%</th><td>0.7018</td><td>0.8538</td><td>0.40</td></tr>
+                <tr><th scope="row">50%</th><td>0.6845</td><td>0.8447</td><td>0.34</td></tr>
+                <tr><th scope="row">75%</th><td>0.6729</td><td>0.8407</td><td>0.30</td></tr>
+                <tr><th scope="row">100%</th><td>0.6671</td><td>0.8383</td><td>0.30</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="diagnostic-note">ρ is the Spearman correlation between TCSE scores and ground-truth ranks. The 0% setting retains the original matched ROI–sentence correspondence.</p>
+        </div>
+
+        <div class="diagnostic-panel" id="diag-panel-lvlm" role="tabpanel" aria-labelledby="diag-tab-lvlm" tabindex="0">
+          <h3>LVLM Caption Generators and Latency</h3>
+          <p class="diagnostic-description">Compare caption sources by ranking accuracy and caption-generation cost.</p>
+          <div class="diagnostic-table-scroll" role="region" aria-label="LVLM Caption Generators and Latency results; scroll horizontally if needed" tabindex="0">
+            <table class="diagnostic-table">
+              <caption>Supplementary Table 3: Effect of LVLM caption generators and caption generation latency.</caption>
+              <thead><tr><th scope="col">LVLM</th><th scope="col">SA-SOR ↑</th><th scope="col">SOR ↑</th><th scope="col">t_d (s/image) ↓</th><th scope="col">t_off (min) ↓</th><th scope="col">t_on (min) ↓</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">InternVL3.5-8B</th><td>0.6832</td><td>0.8444</td><td>0.32</td><td>1.65</td><td>17.29</td></tr>
+                <tr><th scope="row">LLaVA-7B</th><td>0.7112</td><td>0.8500</td><td>0.38</td><td>1.65</td><td>20.22</td></tr>
+                <tr><th scope="row">Qwen2-VL-7B</th><td>0.6967</td><td>0.8536</td><td><strong>0.23</strong></td><td>1.65</td><td><strong>12.89</strong></td></tr>
+                <tr><th scope="row">InstructBLIP-7B</th><td>0.6975</td><td>0.8536</td><td>0.33</td><td>1.65</td><td>17.78</td></tr>
+                <tr><th scope="row">Gemma3-12B</th><td>0.7112</td><td>0.8580</td><td>0.36</td><td>1.65</td><td>19.24</td></tr>
+                <tr class="diagnostic-reference"><th scope="row">ShareGPT4V-7B</th><td><strong>0.7144</strong></td><td><strong>0.8613</strong></td><td>0.30</td><td>1.65</td><td>16.31</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="diagnostic-note">Each caption-source setting is trained and evaluated separately on IRSR. <var>t</var><sub>d</sub> is caption-generation time per image in seconds. <var>t</var><sub>off</sub> is cached-caption inference time, and <var>t</var><sub>on</sub> includes caption generation; both are measured in minutes over the full test split. Timings use two RTX 4090 GPUs. Bold marks the highest ranking scores or lowest varying latency; cached-caption times are tied.</p>
+        </div>
+
+        <div class="diagnostic-panel" id="diag-panel-linguistic" role="tabpanel" aria-labelledby="diag-tab-linguistic" tabindex="0">
+          <h3>Effect of Linguistic Cues</h3>
+          <p class="diagnostic-description">Compare caption length, caption source, and the linguistic content available to TSPNet.</p>
+          <div class="diagnostic-table-scroll" role="region" aria-label="Effect of Linguistic Cues results; scroll horizontally if needed" tabindex="0">
+            <table class="diagnostic-table">
+              <caption>Supplementary Table 4: Effect of linguistic cues on saliency ranking performance.</caption>
+              <thead><tr><th scope="col">Caption variation</th><th scope="col">SA-SOR ↑</th><th scope="col">SOR ↑</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Short captions (Human)</th><td>0.6856</td><td>0.8453</td></tr>
+                <tr><th scope="row">Short captions (LVLM)</th><td>0.6842</td><td>0.8488</td></tr>
+                <tr><th scope="row">w/o Adjectives/Adverbs</th><td>0.6877</td><td>0.8500</td></tr>
+                <tr><th scope="row">Shuffled Sentence Order</th><td>0.7028</td><td>0.8512</td></tr>
+                <tr><th scope="row">w/o Relational Expressions</th><td>0.6877</td><td>0.8517</td></tr>
+                <tr class="diagnostic-reference"><th scope="row">Full Long-Form Descriptions</th><td><strong>0.7144</strong></td><td><strong>0.8613</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="diagnostic-note">The short-caption comparison uses human-written MSCOCO captions and short LVLM captions. The other settings modify the linguistic content of the long-form descriptions.</p>
+        </div>
+        <p class="diagnostic-note">Ranking metrics: higher is better. Blue rows identify the full or reference setting for each experiment. Values are reproduced from the main paper and supplementary material.</p>
       </div>
     </section>
 

@@ -300,8 +300,53 @@ function configureCitation() {
   });
 }
 
+/* BEGIN TSPNET DIAGNOSTIC ABLATIONS */
+function configureDiagnosticAblations() {
+  const section = document.getElementById("analysis");
+  if (!section || section.dataset.diagnosticReady === "true") return;
+
+  const tablist = section.querySelector(".diagnostic-tabs");
+  const tabs = [...section.querySelectorAll(".diagnostic-tab")];
+  const panels = [...section.querySelectorAll(".diagnostic-panel")];
+  if (!tablist || tabs.length !== 6 || panels.length !== 6) return;
+
+  const panelById = new Map(panels.map((panel) => [panel.id, panel]));
+  if (tabs.some((tab) => !panelById.has(tab.getAttribute("aria-controls")))) return;
+
+  function activateTab(activeTab, moveFocus = false) {
+    tabs.forEach((tab) => {
+      const selected = tab === activeTab;
+      tab.setAttribute("aria-selected", String(selected));
+      tab.tabIndex = selected ? 0 : -1;
+      panelById.get(tab.getAttribute("aria-controls")).hidden = !selected;
+    });
+    if (moveFocus) activeTab.focus();
+  }
+
+  tabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => activateTab(tab));
+    tab.addEventListener("keydown", (event) => {
+      let nextIndex;
+      if (event.key === "ArrowRight") nextIndex = (index + 1) % tabs.length;
+      if (event.key === "ArrowLeft") nextIndex = (index - 1 + tabs.length) % tabs.length;
+      if (event.key === "Home") nextIndex = 0;
+      if (event.key === "End") nextIndex = tabs.length - 1;
+      if (nextIndex === undefined) return;
+      event.preventDefault();
+      activateTab(tabs[nextIndex], true);
+    });
+  });
+
+  // With JavaScript disabled, the hidden tab bar stays hidden and all tables remain visible.
+  section.dataset.diagnosticReady = "true";
+  tablist.hidden = false;
+  activateTab(tabs[0]);
+}
+/* END TSPNET DIAGNOSTIC ABLATIONS */
+
 configureHeader();
 configureResults();
 configureCarousel();
 configureImageViewer();
 configureCitation();
+configureDiagnosticAblations();
