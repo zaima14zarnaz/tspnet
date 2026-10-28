@@ -67,32 +67,41 @@ function makeElement(tag, text, className) {
 }
 
 function configureHeader() {
+  // Authors may be hardcoded in the HTML (paper-authors). Skip JS author
+  // wiring when #authors / #affiliations / #author-note are absent so later
+  // initializers (including diagnostic tabs) still run.
   const authorContainer = document.getElementById("authors");
-  SITE_CONFIG.authors.forEach((author) => {
-    const span = makeElement("span", undefined, "author");
-    const url = safeHref(author.url);
-    const name = makeElement(url ? "a" : "span", author.name);
-    if (url) { name.href = url; name.target = "_blank"; name.rel = "noopener"; }
-    span.append(name);
-    if (author.affiliations?.length) span.append(makeElement("sup", author.affiliations.join(",")));
-    if (author.marker) span.append(makeElement("sup", author.marker));
-    authorContainer.append(span);
-    const metadata = document.createElement("meta");
-    metadata.name = "citation_author";
-    metadata.content = author.name;
-    document.head.append(metadata);
-  });
-  authorContainer.hidden = SITE_CONFIG.authors.length === 0;
+  if (authorContainer) {
+    SITE_CONFIG.authors.forEach((author) => {
+      const span = makeElement("span", undefined, "author");
+      const url = safeHref(author.url);
+      const name = makeElement(url ? "a" : "span", author.name);
+      if (url) { name.href = url; name.target = "_blank"; name.rel = "noopener"; }
+      span.append(name);
+      if (author.affiliations?.length) span.append(makeElement("sup", author.affiliations.join(",")));
+      if (author.marker) span.append(makeElement("sup", author.marker));
+      authorContainer.append(span);
+      const metadata = document.createElement("meta");
+      metadata.name = "citation_author";
+      metadata.content = author.name;
+      document.head.append(metadata);
+    });
+    authorContainer.hidden = SITE_CONFIG.authors.length === 0;
+  }
   const affiliations = document.getElementById("affiliations");
-  SITE_CONFIG.affiliations.forEach((item) => {
-    const span = makeElement("span", undefined, "affiliation");
-    span.append(makeElement("sup", item.id), document.createTextNode(` ${item.name}`));
-    affiliations.append(span);
-  });
-  affiliations.hidden = SITE_CONFIG.affiliations.length === 0;
+  if (affiliations) {
+    SITE_CONFIG.affiliations.forEach((item) => {
+      const span = makeElement("span", undefined, "affiliation");
+      span.append(makeElement("sup", item.id), document.createTextNode(` ${item.name}`));
+      affiliations.append(span);
+    });
+    affiliations.hidden = SITE_CONFIG.affiliations.length === 0;
+  }
   const note = document.getElementById("author-note");
-  note.textContent = SITE_CONFIG.authorNote;
-  note.hidden = !SITE_CONFIG.authorNote;
+  if (note) {
+    note.textContent = SITE_CONFIG.authorNote;
+    note.hidden = !SITE_CONFIG.authorNote;
+  }
 
   for (const name of ["paper", "supplement", "code", "arxiv"]) {
     const link = document.getElementById(`${name}-link`);
